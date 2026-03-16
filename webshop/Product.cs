@@ -33,8 +33,8 @@ namespace webshop
             }
             set
             {
-                if (value >= 0 || value > 1000) prijs = value;
-                else prijs = 0;
+                if (value <= 0 || value > 1000) prijs = 0;
+                else prijs = value;
             }
         }
         public int Voorraad

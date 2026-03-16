@@ -15,47 +15,53 @@ namespace webshop
         {
             List<Product> Producten = new List<Product>();
             bool Switch = true;
-
-
-
             int i = 0;
 
 
             while (Switch == true) 
             {
-                Console.WriteLine($" kies 1 of 2");
+                Console.WriteLine("\n--- WEBSHOP SYSTEEM ---");
+                Console.WriteLine($"1  Product toevoegen");
+                Console.WriteLine($"2  Product bekijken");
+                Console.WriteLine($"9  Programma afsluiten");
                 int nummer = int.Parse(Console.ReadLine());
                 switch (nummer) 
                 {
                     case 1:
 
-                        Console.Write("welke product wilt je toevoegen: ");
+                        Console.Write("Welk product wil je toevoegen: ");
                         string product = Console.ReadLine();
+                        Console.WriteLine();
 
-                        Console.WriteLine("prijs van de product:");
-                        int prijs = int.Parse(Console.ReadLine());
+                        Console.WriteLine("Wat is de prijs van het product: ");
+                        double prijs = double.Parse(Console.ReadLine());
+                        Console.WriteLine();
 
-                        Console.WriteLine("de voorraad van de product:");
+                        Console.WriteLine("Wat is de voorraad van het product: ");
                         int voorraad = int.Parse(Console.ReadLine());
+                        Console.WriteLine();
 
                         Product nieuwProduct = new Product(Producten.Count+1, product, prijs, voorraad);
 
                         Producten.Add(nieuwProduct);
 
-                        nieuwProduct.ToonInfo();
+                        Console.WriteLine("Product Toegevoegd!");
                             i++;
 
                         break;
                     case 2:
                         
-                        if (Producten.Count == 0) Console.WriteLine($"er zijn geen producten");
+                        if (Producten.Count == 0) Console.WriteLine($"Er zijn geen producten");
                         else 
                         {
                         foreach (Product p in Producten) { p.ToonInfo(); }
                         }
                             break;
-                }
-                
+                    case 9:
+                        Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
+                        Switch = false;
+                        break;
+                }                
             }
             Console.ReadKey();
         }
