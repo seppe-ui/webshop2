@@ -13,6 +13,20 @@ namespace webshop
     {
         static void Main(string[] args)
         {
+            Product Laptop = new Product(1,"HP ProBook",899.99,5);
+            Laptop.ToonInfo();
+            Console.WriteLine();
+
+            Product Muis = new Product(2,"Logitech Lightweight",49.99,5);
+            Muis.ToonInfo();
+            Console.WriteLine();
+
+            Product Toetsenbord = new Product(3,"Steelseries Apex Pro TKL",59.99,5);
+            Toetsenbord.ToonInfo();
+            Console.WriteLine();
+
+
+            Console.ReadKey();
             List<Product> Producten = new List<Product>();
             bool Switch = true;
 
