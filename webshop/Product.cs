@@ -9,10 +9,7 @@ namespace webshop
     internal class Product
     {
        
-        public int Id { get; set; }
-        public int Naam { get; set; }
-        public int Prijs { get; set; }
-        public int Voorraad { get; set; }
+
         
 
 

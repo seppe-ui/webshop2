@@ -28,8 +28,8 @@ namespace webshop
                             Console.Write($"welke product wilt je toevoegen: ");
                             string product = Console.ReadLine();
                             break;
-                    case 2: 
-                        break
+                    case 2:
+                        break;
                 }
             }
             Console.ReadKey();
