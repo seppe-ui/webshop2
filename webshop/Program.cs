@@ -10,6 +10,7 @@ namespace webshop
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("test");
         }
     }
 }
