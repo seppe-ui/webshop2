@@ -12,6 +12,7 @@ namespace webshop
         double prijs;
         int voorraad;
 
+        public string Naam { get; set; }
         public int Id
         {
             get
@@ -20,10 +21,10 @@ namespace webshop
             }
             set
             {
-                if (value >= 0 || value < 3) id = 1;                        
+                if (value >= 0) id = value;
+                else id = 0;
             }
         }
-        public string Naam { get; set; }
         public double Prijs
         {
             get
@@ -32,7 +33,8 @@ namespace webshop
             }
             set
             {
-                if (value >= 0 || value < 1000) prijs = 0;
+                if (value >= 0 || value > 1000) prijs = value;
+                else prijs = 0;
             }
         }
         public int Voorraad
@@ -43,14 +45,9 @@ namespace webshop
             }
             set
             {
-                if (value < 0) voorraad = 0;
+                if (value > 0) voorraad = value;
+                else voorraad = 0;
             } 
-        }
-        public Product() : this( 1, "onbekend", 0.1, 1)
-        {
-        }
-        public Product(int id, string naam) : this(id, naam, 0.1, 1)
-        {
         }
         public Product(int id, string naam, double prijs, int voorraad)
         {
