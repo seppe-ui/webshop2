@@ -16,35 +16,19 @@ namespace webshop
             List<Product> Producten = new List<Product>();
             bool Switch = true;
 
-            Console.WriteLine("test");
-            Console.WriteLine("1");
-            int nummer = int.Parse(Console.ReadLine());
 
 
+            int i = 0;
 
 
             while (Switch == true) 
-            { 
-            switch(nummer) 
+            {
+                Console.WriteLine($" kies 1 of 2");
+                int nummer = int.Parse(Console.ReadLine());
+                switch (nummer) 
                 {
                     case 1:
-                        /*
-                            Console.Write($"welke product wilt je toevoegen: ");
-                        string product = Console.ReadLine();
-                        Console.WriteLine($"prijs van de product:");
-                        int prijs = int.Parse(Console.ReadLine());
-                        Console.WriteLine($"de voorraad van de product:");
-                        int voorraad = int.Parse(Console.ReadLine());
-                        for (int i; i > Producten.Count; i++ )
-                        {
-                            Producten[i] = new Product(i, product, prijs, voorraad);
-                        }
-                }
-                        Console.WriteLine($"Id: {Producten.Count}");
-                        Console.WriteLine($"Naam: {product}");
-                        Console.WriteLine($"Prijs: {prijs}");
-                        Console.WriteLine($"Voorraad: {voorraad}");
-                        */
+
                         Console.Write("welke product wilt je toevoegen: ");
                         string product = Console.ReadLine();
 
@@ -54,18 +38,22 @@ namespace webshop
                         Console.WriteLine("de voorraad van de product:");
                         int voorraad = int.Parse(Console.ReadLine());
 
-                        Product nieuwProduct = new Product(Producten.Count, product, prijs, voorraad);
+                        Product nieuwProduct = new Product(Producten.Count+1, product, prijs, voorraad);
 
                         Producten.Add(nieuwProduct);
 
-                        Console.WriteLine($"Id: {nieuwProduct.Id}");
-                        Console.WriteLine($"Naam: {nieuwProduct.Naam}");
-                        Console.WriteLine($"Prijs: {nieuwProduct.Prijs}");
-                        Console.WriteLine($"Voorraad: {nieuwProduct.Voorraad}");
+                        nieuwProduct.ToonInfo();
+                            i++;
 
                         break;
                     case 2:
-                        break;
+                        
+                        if (Producten.Count == 0) Console.WriteLine($"er zijn geen producten");
+                        else 
+                        {
+                        foreach (Product p in Producten) { p.ToonInfo(); }
+                        }
+                            break;
                 }
                 
             }
