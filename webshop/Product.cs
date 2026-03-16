@@ -8,5 +8,8 @@ namespace webshop
 {
     internal class Product
     {
+        List<string> Product = new List<string>();
+
+
     }
 }
