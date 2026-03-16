@@ -27,8 +27,8 @@ namespace webshop
             { 
             switch(nummer) 
                 {
-                    case 1: 
-                        
+                    case 1:
+                        /*
                             Console.Write($"welke product wilt je toevoegen: ");
                         string product = Console.ReadLine();
                         Console.WriteLine($"prijs van de product:");
@@ -44,6 +44,24 @@ namespace webshop
                         Console.WriteLine($"Naam: {product}");
                         Console.WriteLine($"Prijs: {prijs}");
                         Console.WriteLine($"Voorraad: {voorraad}");
+                        */
+                        Console.Write("welke product wilt je toevoegen: ");
+                        string product = Console.ReadLine();
+
+                        Console.WriteLine("prijs van de product:");
+                        int prijs = int.Parse(Console.ReadLine());
+
+                        Console.WriteLine("de voorraad van de product:");
+                        int voorraad = int.Parse(Console.ReadLine());
+
+                        Product nieuwProduct = new Product(Producten.Count, product, prijs, voorraad);
+
+                        Producten.Add(nieuwProduct);
+
+                        Console.WriteLine($"Id: {nieuwProduct.Id}");
+                        Console.WriteLine($"Naam: {nieuwProduct.Naam}");
+                        Console.WriteLine($"Prijs: {nieuwProduct.Prijs}");
+                        Console.WriteLine($"Voorraad: {nieuwProduct.Voorraad}");
 
                         break;
                     case 2:
