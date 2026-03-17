@@ -57,13 +57,40 @@ namespace webshop
                         break;
                     case 2:
                         
-                        if (Producten.Count == 0) Console.WriteLine($"Er zijn geen producten");
+                        if (Producten.Count == 0) 
+                            Console.WriteLine($"Er zijn geen producten");
                         else 
                         {
                             Console.WriteLine();
                         foreach (Product p in Producten) { p.ToonInfo(); }
                         }
                             break;
+                    case 3:
+                        Console.Write("Voer het ID in van het product dat je wilt aanpassen: ");
+                        int zoekId = int.Parse(Console.ReadLine());
+
+                        Product teAanpassen = Producten.Find(p => p.Id == zoekId);
+
+                        if (teAanpassen == null)
+                        {
+                            Console.WriteLine("Product met dit ID niet gevonden.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Gevonden: {teAanpassen.Naam}");
+
+                            Console.Write("Nieuwe naam: ");
+                            teAanpassen.Naam = Console.ReadLine();
+
+                            Console.Write("Nieuwe prijs: ");
+                            teAanpassen.Prijs = double.Parse(Console.ReadLine());
+
+                            Console.Write("Nieuwe voorraad: ");
+                            teAanpassen.Voorraad = int.Parse(Console.ReadLine());
+
+                            Console.WriteLine("Product succesvol aangepast!");
+                        }
+                        break;
                     case 9:
                         Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
                         Switch = false;
