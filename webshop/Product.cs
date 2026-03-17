@@ -22,7 +22,7 @@ namespace webshop
             }
             set
             {
-                if (value <= 0 || value > 1000) prijs = 0;
+                if (value <= 0) prijs = 0;
                 else prijs = value;
             }
         }
@@ -45,6 +45,7 @@ namespace webshop
             Prijs = prijs;
             Voorraad = voorraad;
         }
+
         public void ToonInfo()
         {
             Console.WriteLine($"Id: {Id}");
@@ -54,5 +55,6 @@ namespace webshop
             Console.WriteLine();
 
         }
+
     }
 }

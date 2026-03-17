@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using static webshop.Databeheer;
 
 namespace webshop
 {
@@ -16,8 +17,6 @@ namespace webshop
             List<Product> Producten = new List<Product>();
             List<Klanten> klanten = new List<Klanten>();
             bool Switch = true;
-            int i = 0;
-
 
             while (Switch == true) 
             {
@@ -94,17 +93,18 @@ namespace webshop
                         break;
 
                     case 4:
-                        Console.Write("wat is de naam van de klant: ");
+                        Console.Write("Wat is de naam van de klant: ");
                         string naam = Console.ReadLine();
 
-                        Console.Write("de email van de klant: ");
+                        Console.Write("Wat is de email van de klant: ");
                         string email = Console.ReadLine();
 
                         Klanten nieuwklanten = new Klanten(klanten.Count + 1,naam,email);
 
                         klanten.Add(nieuwklanten);
 
-                        Console.WriteLine("klant succesvol toegevoegd!");
+                        Console.WriteLine("Klant is succesvol toegevoegd!");
+                        Console.WriteLine();
                         break;
                     case 5:
                         if (klanten.Count == 0)
@@ -119,7 +119,7 @@ namespace webshop
                         Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
                         Switch = false;
                         break;
-                }                
+                }
             }
             Console.ReadKey();
         }

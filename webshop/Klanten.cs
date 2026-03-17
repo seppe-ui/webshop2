@@ -24,7 +24,7 @@ namespace webshop
         {
             Console.WriteLine($"Id: {Id}");
             Console.WriteLine($"Naam: {Naam}");
-            Console.WriteLine($"Prijs: {Email}");
+            Console.WriteLine($"Email: {Email}");
             Console.WriteLine();
         }
 
