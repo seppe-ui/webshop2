@@ -13,18 +13,7 @@ namespace webshop
         int voorraad;
 
         public string Naam { get; set; }
-        public int Id
-        {
-            get
-            {
-                return id;
-            }
-            set
-            {
-                if (value >= 0) id = value;
-                else id = 0;
-            }
-        }
+        public int Id {get; set;}
         public double Prijs
         {
             get
@@ -62,6 +51,7 @@ namespace webshop
             Console.WriteLine($"Naam: {Naam}");
             Console.WriteLine($"Prijs: {Prijs}");
             Console.WriteLine($"Voorraad: {Voorraad}");
+            Console.WriteLine();
 
         }
     }

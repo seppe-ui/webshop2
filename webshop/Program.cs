@@ -31,6 +31,7 @@ namespace webshop
                 Console.WriteLine($"7  Bestelling bekijken");
                 Console.WriteLine($"8  Statistieken (producten, klanten, bestellingen)");
                 Console.WriteLine($"9  Programma afsluiten");
+                Console.WriteLine();
                 int nummer = int.Parse(Console.ReadLine());
                 switch (nummer) 
                 {
