@@ -13,7 +13,7 @@ namespace webshop
     {
         static void Main(string[] args)
         {
-            <Product> Producten = new List<Product>();
+            List<Product> Producten = new List<Product>();
             List<Klanten> klanten = new List<Klanten>();
             bool Switch = true;
             int i = 0;
@@ -54,7 +54,6 @@ namespace webshop
                         Producten.Add(nieuwProduct);
 
                         Console.WriteLine("Product Toegevoegd!");
-                            i++;
 
                         break;
                     case 2:
@@ -95,10 +94,26 @@ namespace webshop
                         break;
 
                     case 4:
-                           
-                        //Klanten klanten = new Klanten(klanten.Count + 1);
+                        Console.Write("wat is de naam van de klant: ");
+                        string naam = Console.ReadLine();
 
-                        //klanten.Add(nieuwklant);
+                        Console.Write("de email van de klant: ");
+                        string email = Console.ReadLine();
+
+                        Klanten nieuwklanten = new Klanten(klanten.Count + 1,naam,email);
+
+                        klanten.Add(nieuwklanten);
+
+                        Console.WriteLine("klant succesvol toegevoegd!");
+                        break;
+                    case 5:
+                        if (klanten.Count == 0)
+                            Console.WriteLine($"Er zijn geen klanten!");
+                        else
+                        {
+                            Console.WriteLine();
+                            foreach (Klanten k in klanten) { k.ToonInfo(); }
+                        }
                         break;
                     case 9:
                         Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");

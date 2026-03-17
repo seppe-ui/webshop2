@@ -18,7 +18,7 @@ namespace webshop
             Naam = naam;
             Email = email;
         }
-        public void maakklant();
+
 
         public void ToonInfo()
         {
