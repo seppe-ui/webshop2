@@ -93,7 +93,7 @@ namespace webshop
                         }
                         break;
 
-                    case 4: 
+                    case 4:
                     case 9:
                         Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
                         Switch = false;
