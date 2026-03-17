@@ -8,6 +8,7 @@ namespace webshop
 {
     internal class Klanten
     {
+
         public int Id { get; set; }
         public string Naam { get; set; }
         public string Email { get; set; }
@@ -17,6 +18,8 @@ namespace webshop
             Naam = naam;
             Email = email;
         }
+        public void maakklant();
+
         public void ToonInfo()
         {
             Console.WriteLine($"Id: {Id}");
@@ -24,5 +27,6 @@ namespace webshop
             Console.WriteLine($"Prijs: {Email}");
             Console.WriteLine();
         }
-        }
+
     }
+}

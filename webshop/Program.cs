@@ -13,8 +13,8 @@ namespace webshop
     {
         static void Main(string[] args)
         {
-            List<Product> Producten = new List<Product>();
-            List<Klanten> klanten  = new List<Klanten>();
+            <Product> Producten = new List<Product>();
+            List<Klanten> klanten = new List<Klanten>();
             bool Switch = true;
             int i = 0;
 
@@ -95,6 +95,11 @@ namespace webshop
                         break;
 
                     case 4:
+                           
+                        //Klanten klanten = new Klanten(klanten.Count + 1);
+
+                        //klanten.Add(nieuwklant);
+                        break;
                     case 9:
                         Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
                         Switch = false;
