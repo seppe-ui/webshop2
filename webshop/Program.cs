@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -16,6 +17,7 @@ namespace webshop
         {
             List<Product> Producten = new List<Product>();
             List<Klanten> klanten = new List<Klanten>();
+            List<Bestellingen> bestellingen = new List<Bestellingen>();
             bool Switch = true;
 
             while (Switch == true) 
@@ -115,6 +117,75 @@ namespace webshop
                             foreach (Klanten k in klanten) { k.ToonInfo(); }
                         }
                         break;
+                    case 6:
+                        if (Producten.Count == 0)
+                        {
+                            Console.WriteLine("er zijn nog geen producten te koop!");
+                        }
+                        else
+                        {   
+        
+                            foreach (Product p in Producten) { p.ToonInfo(); }
+                            Console.WriteLine("");
+                            Console.Write($"geef ID in:");
+                            int ID = int.Parse(Console.ReadLine());
+                            Console.WriteLine();
+
+                            if (ID <= 0) Console.WriteLine("Fout geef geen ID's onder 0!");
+                            else 
+                            {
+                                Product findproduct = Producten.Find(p => p.Id == ID);
+                                if (findproduct == null)
+                                {
+                                    Console.WriteLine("Product met dit ID niet gevonden.");
+                                }
+                                else findproduct.ToonInfo();
+
+                                Console.Write("\nis dit de product?(ja of nee):");
+                                string antwoord = Console.ReadLine();
+
+                                if (antwoord == "ja")
+                                {
+                                    Console.Write("hoeveel wil je kopen:");
+                                    int aantal = int.Parse(Console.ReadLine());
+
+
+
+                                    if (aantal < findproduct.Voorraad && aantal > 0)
+                                    {
+                                        Console.WriteLine($"het kost {findproduct.Prijs * aantal} euro");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("\ner is niet genoeg voorraad!");
+                                        antwoord = "nee";
+                                        break;
+                                    }
+                                    Console.Write($"is dit goed?(ja of nee):");
+                                    antwoord = Console.ReadLine();
+                                    if (antwoord == "ja")
+                                    {
+                                        Console.Write("\nstad:");
+                                        string stad = Console.ReadLine();
+
+                                        Console.Write("straat:");
+                                        string straat = Console.ReadLine();
+
+                                        Bestellingen nieuwbestelling = new Bestellingen(bestellingen.Count + 1, stad, straat, findproduct.Naam, findproduct.Prijs * aantal, aantal);
+                                        bestellingen.Add(nieuwbestelling);
+
+                                        Console.WriteLine("\nbestelling is toegevoegd!");
+                                    }
+                                    
+                                }else Console.WriteLine("bestelling is gestopt!");
+                            }
+                        }
+                        break;
+                    case 7: 
+                        if (bestellingen.Count == 0) { Console.WriteLine("er zijn geen bestellingen gevonden!"); }
+                        else foreach (Bestellingen b in bestellingen) { b.ToonInfo(); }
+                        break;
+                        
                     case 9:
                         Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
                         Switch = false;
