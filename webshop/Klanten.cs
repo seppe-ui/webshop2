@@ -26,6 +26,7 @@ namespace webshop
 
         public void ToonInfo()
         {
+            Console.WriteLine($"\n[ Klant #{Id} ]");
             Console.WriteLine($"\nId: {Id}");
             Console.WriteLine($"Naam: {Naam}");
             Console.WriteLine($"Email: {Email}");

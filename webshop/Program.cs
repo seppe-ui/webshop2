@@ -21,7 +21,7 @@ namespace webshop
 
         static void Main(string[] args)
         {
-
+            InitialiseerData();
             bool Switch = true;
 
             while (Switch == true)
@@ -39,7 +39,8 @@ namespace webshop
                 Console.WriteLine("10 Gegevens OPSLAAN naar .txt");
                 Console.WriteLine("11 Gegevens LADEN en TONEN uit .txt");
                 Console.WriteLine("12 ALLE opgeslagen gegevens Wissen");
-                Console.WriteLine();
+                Console.WriteLine("--------------------------------");
+
                 int nummer = int.Parse(Console.ReadLine());
                 switch (nummer)
                 {
@@ -73,6 +74,8 @@ namespace webshop
                         break;
                     case 10:
                         teSavenProducten();
+                        teSavenKlanten();
+                        teSavenBestellingen();
                         break;
                     case 11:
                         opgeslagenGegevens();
@@ -174,71 +177,41 @@ namespace webshop
                 foreach (Klanten k in klanten) { k.ToonInfo(); }
             }
         }
-        static public void bestellingenmaken() 
+        static public void bestellingenmaken()
         {
-            if (Producten.Count == 0)
+            if (Producten.Count == 0 || klanten.Count == 0)
             {
-                Console.WriteLine("er zijn nog geen producten te koop!");
+                Console.WriteLine("Zorg dat er zowel producten als klanten bestaan!");
+                return;
             }
-            else
-            {
 
-                foreach (Product p in Producten) { p.ToonInfo(); }
-                Console.WriteLine("");
-                Console.Write($"geef ID in:");
-                int ID = int.Parse(Console.ReadLine());
-                Console.WriteLine();
+            productenbekijken();
+            Console.Write("\nGeef Product ID in: ");
+            int prodId = int.Parse(Console.ReadLine());
+            Product findproduct = Producten.Find(p => p.Id == prodId);
 
-                if (ID <= 0) Console.WriteLine("Fout geef geen ID's onder 0!");
-                else
-                {
-                    Product findproduct = Producten.Find(p => p.Id == ID);
-                    if (findproduct == null)
-                    {
-                        Console.WriteLine("Product met dit ID niet gevonden.");
-                    }
-                    else findproduct.ToonInfo();
+            if (findproduct == null) { Console.WriteLine("Product niet gevonden."); return; }
 
-                    Console.Write("\nis dit de product?(ja of nee):");
-                    string antwoord = Console.ReadLine();
+            Console.Write("Hoeveel wil je kopen: ");
+            int aantal = int.Parse(Console.ReadLine());
 
-                    if (antwoord == "ja")
-                    {
-                        Console.Write("hoeveel wil je kopen:");
-                        int aantal = int.Parse(Console.ReadLine());
+            if (aantal > findproduct.Voorraad) { Console.WriteLine("Niet genoeg voorraad!"); return; }
 
+            klantenbekijken();
+            Console.Write("\nGeef Klant ID in: ");
+            int klantId = int.Parse(Console.ReadLine());
+            Klanten findklant = klanten.Find(k => k.Id == klantId);
 
+            if (findklant == null) { Console.WriteLine("Klant niet gevonden."); return; }
 
-                        if (aantal < findproduct.Voorraad && aantal > 0)
-                        {
-                            Console.WriteLine($"het kost {findproduct.Prijs * aantal} euro");
-                        }
-                        else
-                        {
-                            Console.WriteLine("\ner is niet genoeg voorraad!");
-                            antwoord = "nee";
-                        }
-                        foreach (Klanten k in klanten) { k.ToonInfo(); }
-                        Console.Write("\ngeef klanten id in:");
-                        int iD = int.Parse(Console.ReadLine());
+            Bestellingen nieuw = new Bestellingen(bestellingen.Count + 1, findklant.Stad, findklant.Straat, findklant.Naam, findproduct.Naam, findproduct.Prijs * aantal, aantal);
+            bestellingen.Add(nieuw);
 
-                        Klanten findklant = klanten.Find(k => k.Id == iD);
-                        Console.Write($"noem je {findklant.Naam}(ja of nee): ");
-                        antwoord = Console.ReadLine();
+            findproduct.Voorraad -= aantal;
 
-                        if (antwoord == "ja")
-                        {
-                            Bestellingen nieuwbestelling = new Bestellingen(bestellingen.Count + 1, findklant.Stad,findklant.Straat,findklant.Naam, findproduct.Naam, findproduct.Prijs * aantal, aantal);
-                            bestellingen.Add(nieuwbestelling);
-
-                            Console.WriteLine("\nbestelling is toegevoegd!");
-                        }
-
-                    }
-                    else Console.WriteLine("bestelling is gestopt!");
-                }
-            }
+            Console.WriteLine("\nBestelling succesvol toegevoegd aan de lijst!");
         }
+
         static public void bestellingenbekijken() 
         {
             if (bestellingen.Count == 0) { Console.WriteLine("er zijn geen bestellingen gevonden!"); }
@@ -281,6 +254,26 @@ namespace webshop
 
             Console.WriteLine("Alle producten zijn succesvol opgeslagen in producten.txt!");
         }
+        static public void teSavenKlanten()
+        {
+            List<string> dataLijnen = new List<string>();
+            foreach (var k in klanten)
+            {
+                dataLijnen.Add($"{k.Id};{k.Naam};{k.Email};{k.Stad};{k.Straat}");
+            }
+            File.WriteAllLines("klanten.txt", dataLijnen);
+            Console.WriteLine("Klanten succesvol opgeslagen in klanten.txt!");
+        }
+        static public void teSavenBestellingen()
+        {
+            List<string> dataLijnen = new List<string>();
+            foreach (var b in bestellingen)
+            {
+                dataLijnen.Add($"{b.Id};{b.Stad};{b.Straat};{b.Klant};{b.Naam};{b.Prijs};{b.Aantal}");
+            }
+            File.WriteAllLines("bestellingen.txt", dataLijnen);
+            Console.WriteLine("Bestellingen succesvol opgeslagen in bestellingen.txt!");
+        }
         static public void opgeslagenGegevens()
         {
             Console.WriteLine("\n[ PRODUCTEN ]");
@@ -302,6 +295,13 @@ namespace webshop
                 foreach (string lijn in File.ReadAllLines("klanten.txt")) Console.WriteLine(lijn);
             }
             else Console.WriteLine("Geen klantenbestand gevonden.");
+
+            Console.WriteLine("\n[ BESTELLINGEN ]");
+            if (File.Exists("bestellingen.txt"))
+            {
+                foreach (string lijn in File.ReadAllLines("bestellingen.txt")) Console.WriteLine(lijn);
+            }
+            else Console.WriteLine("Geen bestellingen gevonden.");
         }
         static void allesWissen()
         {
@@ -320,5 +320,86 @@ namespace webshop
                 Console.WriteLine("Alle bestanden zijn verwijderd. Herstart het programma voor schone testdata.");
             }
         }
+        static public void InitialiseerData()
+        {
+            if (File.Exists("producten.txt"))
+            {
+                string[] lijnen = File.ReadAllLines("producten.txt");
+                foreach (string lijn in lijnen)
+                {
+                    if (!string.IsNullOrWhiteSpace(lijn))
+                    {
+                        string[] p = lijn.Split(';');
+                        Product temp = new Product(int.Parse(p[0]), p[1], double.Parse(p[2]), int.Parse(p[3]));
+                        Producten.Add(temp);
+                    }
+                }
+            }
+
+            if (File.Exists("klanten.txt"))
+            {
+                string[] lijnen = File.ReadAllLines("klanten.txt");
+                foreach (string lijn in lijnen)
+                {
+                    if (!string.IsNullOrWhiteSpace(lijn))
+                    {
+                        string[] k = lijn.Split(';');
+                        Klanten tempKlant = new Klanten(int.Parse(k[0]), k[1], k[2], k[3], k[4]);
+                        klanten.Add(tempKlant);
+                    }
+                }
+            }
+            if (File.Exists("bestellingen.txt"))
+            {
+                string[] lijnen = File.ReadAllLines("bestellingen.txt");
+                foreach (string lijn in lijnen)
+                {
+                    if (!string.IsNullOrWhiteSpace(lijn))
+                    {
+                        string[] b = lijn.Split(';');
+
+                        Bestellingen temp = new Bestellingen(
+                            int.Parse(b[0]),
+                            b[1],
+                            b[2],
+                            b[3],
+                            b[4],
+                            double.Parse(b[5]),
+                            int.Parse(b[6])
+                        );
+
+                        bestellingen.Add(temp);
+                    }
+                }
+            }
+        Console.WriteLine("--- DATA AUTOMATISCH GELADEN ---");
+            ToonDashboard();
+            Console.WriteLine("--------------------------------");
+        }
+        static public void ToonDashboard()
+        {
+            Console.Clear();
+            string scheiding = new string('-', 95); 
+
+            Console.WriteLine(scheiding);
+            Console.WriteLine("| {0,-25} | {1,-30} | {2,-30} |", "KLANTEN", "PRODUCTEN", "BESTELLINGEN");
+            Console.WriteLine(scheiding);
+
+            int maxRows = Math.Max(klanten.Count, Math.Max(Producten.Count, bestellingen.Count));
+
+            for (int i = 0; i < maxRows; i++)
+            {
+                string klantInfo = (i < klanten.Count) ? $"{klanten[i].Id}. {klanten[i].Naam}" : "";
+                string productInfo = (i < Producten.Count) ? $"{Producten[i].Id}. {Producten[i].Naam} ({Producten[i].Prijs:N2})" : "";
+                string bestelInfo = (i < bestellingen.Count) ? $"#{bestellingen[i].Id} {bestellingen[i].Klant} ({bestellingen[i].Aantal}x)" : "";
+
+                Console.WriteLine("| {0,-25} | {1,-30} | {2,-30} |", klantInfo, productInfo, bestelInfo);
+
+            }
+
+            Console.WriteLine(scheiding);
+            Console.WriteLine(" Gebruik het menu hieronder om acties uit te voeren:");
+        }
     }
 }
+

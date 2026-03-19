@@ -8,60 +8,44 @@ namespace webshop
 {
     internal class Bestellingen
     {
-        int id;
-        double prijs;
-        int aantal;
-        string stad;
-        string straat;
-        public string Straat { get; set; }
-        public string Stad { get; set; }
-        public string Naam { get; set; }
-        public string Klant { get; set; }
         public int Id { get; set; }
-        public double Prijs
+        public string Stad { get; set; }
+        public string Straat { get; set; }
+        public string Klant { get; set; } 
+        public string Naam { get; set; } 
+        private double _totaalPrijs;
+        public double Prijs 
         {
-            get
-            {
-                return prijs;
-            }
-            set
-            {
-                if (value <= 0) prijs = 0;
-                else prijs = value;
-            }
+            get { return _totaalPrijs; }
+            set { _totaalPrijs = value <= 0 ? 0 : value; }
         }
+
+        private int _aantal;
         public int Aantal
         {
-            get
-            {
-                return aantal;
-            }
-            set
-            {
-                if (value > 0) aantal = value;
-                else aantal = 0;
-            }
+            get { return _aantal; }
+            set { _aantal = value > 0 ? value : 0; }
         }
-        public Bestellingen(int id,string stad, string straat, string klant, string naam, double prijs, int aantal)
+
+        public Bestellingen(int id, string stad, string straat, string klant, string naam, double prijs, int aantal)
         {
             Id = id;
             Stad = stad;
             Straat = straat;
             Klant = klant;
             Naam = naam;
-            Prijs = prijs;
+            Prijs = prijs; 
             Aantal = aantal;
         }
 
         public void ToonInfo()
         {
-            Console.WriteLine($"\nproduct: {Naam}");
-            Console.WriteLine($"kost: {Prijs * Aantal}");
-            Console.WriteLine($"aantal: {Aantal}");
-            Console.WriteLine($"klant: {Klant}");
-            Console.WriteLine($"stad: {Stad}");
-            Console.WriteLine($"straat {Straat}");
-
+            Console.WriteLine($"\n[ Bestelling #{Id} ]");
+            Console.WriteLine($"Product: {Naam}");
+            Console.WriteLine($"Aantal:  {Aantal}");
+            Console.WriteLine($"Totaal:  {Prijs:N2}");
+            Console.WriteLine($"Klant:   {Klant}");
+            Console.WriteLine($"Adres:   {Straat}, {Stad}");
         }
     }
 }

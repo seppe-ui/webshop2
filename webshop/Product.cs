@@ -47,6 +47,8 @@ namespace webshop
 
         public void ToonInfo()
         {
+            Console.WriteLine($"\n[ Product #{Id} ]");
+
             Console.WriteLine($"Id: {Id}");
             Console.WriteLine($"Naam: {Naam}");
             Console.WriteLine($"Prijs: {Prijs}");
