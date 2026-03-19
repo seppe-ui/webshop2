@@ -8,7 +8,6 @@ namespace webshop
 {
     internal class Product
     {
-        int id;
         double prijs;
         int voorraad;
 
