@@ -71,13 +71,15 @@ public class BestandsBeheer
                 foreach (var regel in File.ReadAllLines(klantBestand))
                 {
                     string[] delen = regel.Split(';');
-                    if (delen.Length == 3)
+                    if (delen.Length == 5)
                     {
                         int id = int.Parse(delen[0]);
                         string naam = delen[1];
                         string email = delen[2];
+                        string stad = delen[3];
+                        string straat = delen[4];
 
-                        lijst.Add(new Klanten(id, naam, email));
+                        lijst.Add(new Klanten(id, naam, email, stad, straat));
                     }
                 }
                 return lijst;

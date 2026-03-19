@@ -16,6 +16,7 @@ namespace webshop
         public string Straat { get; set; }
         public string Stad { get; set; }
         public string Naam { get; set; }
+        public string Klant { get; set; }
         public int Id { get; set; }
         public double Prijs
         {
@@ -41,11 +42,12 @@ namespace webshop
                 else aantal = 0;
             }
         }
-        public Bestellingen(int id,string stad, string straat, string naam, double prijs, int aantal)
+        public Bestellingen(int id,string stad, string straat, string klant, string naam, double prijs, int aantal)
         {
             Id = id;
             Stad = stad;
             Straat = straat;
+            Klant = klant;
             Naam = naam;
             Prijs = prijs;
             Aantal = aantal;
@@ -53,9 +55,10 @@ namespace webshop
 
         public void ToonInfo()
         {
-            Console.WriteLine($"product: {Naam}");
+            Console.WriteLine($"\nproduct: {Naam}");
             Console.WriteLine($"kost: {Prijs * Aantal}");
             Console.WriteLine($"aantal: {Aantal}");
+            Console.WriteLine($"klant: {Klant}");
             Console.WriteLine($"stad: {Stad}");
             Console.WriteLine($"straat {Straat}");
 
