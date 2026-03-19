@@ -3,14 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace webshop
 {
     internal class Opslaan
     {
-        /*
-        class Opslaan
-        {
             static void OpslaanProduct(string naam, double prijs)
             {
                 string inhoud = $"{naam};{prijs}";
@@ -29,6 +27,6 @@ namespace webshop
                 File.AppendAllLines("bestellingen.txt", new[] { inhoud });
             }
         }
-        */
-    }
+        
+    
 }
