@@ -9,6 +9,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using static webshop.Databeheer;
+using System.IO;
 
 namespace webshop
 {
@@ -35,6 +36,9 @@ namespace webshop
                 Console.WriteLine($"7  Bestelling bekijken");
                 Console.WriteLine($"8  Statistieken (producten, klanten, bestellingen)");
                 Console.WriteLine($"9  Programma afsluiten");
+                Console.WriteLine("10 Gegevens OPSLAAN naar .txt");
+                Console.WriteLine("11 Gegevens LADEN en TONEN uit .txt");
+                Console.WriteLine("12 ALLE opgeslagen gegevens Wissen");
                 Console.WriteLine();
                 int nummer = int.Parse(Console.ReadLine());
                 switch (nummer)
@@ -67,6 +71,16 @@ namespace webshop
                         afsluiten();
                         Switch = false; 
                         break;
+                    case 10:
+                        teSavenProducten();
+                        break;
+                    case 11:
+                        opgeslagenGegevens();
+                        break;
+                    case 12:
+                        allesWissen();
+                        break;
+                        
                 }
             }
             Console.ReadKey();
@@ -255,6 +269,56 @@ namespace webshop
         static public void afsluiten()
         {
             Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
+        }
+        static public void teSavenProducten()
+        {
+            List<string> teSavenProducten = new List<string>();
+            foreach (var p in Producten)
+            {
+                teSavenProducten.Add($"{p.Id};{p.Naam};{p.Prijs};{p.Voorraad}");
+            }
+            File.WriteAllLines("producten.txt", teSavenProducten);
+
+            Console.WriteLine("Alle producten zijn succesvol opgeslagen in producten.txt!");
+        }
+        static public void opgeslagenGegevens()
+        {
+            Console.WriteLine("\n[ PRODUCTEN ]");
+            if (File.Exists("producten.txt"))
+            {
+                string[] lijnen = File.ReadAllLines("producten.txt");
+                foreach (string lijn in lijnen)
+                {
+                    Console.WriteLine(lijn);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Geen producten bestand gevonden.");
+            }
+            Console.WriteLine("\n[ KLANTEN ]");
+            if (File.Exists("klanten.txt"))
+            {
+                foreach (string lijn in File.ReadAllLines("klanten.txt")) Console.WriteLine(lijn);
+            }
+            else Console.WriteLine("Geen klantenbestand gevonden.");
+        }
+        static void allesWissen()
+        {
+            Console.WriteLine("Weet je zeker dat je ALLE gegevens wilt wissen? (ja/nee)");
+            string bevestiging = Console.ReadLine().ToLower();
+
+            if (bevestiging == "ja")
+            {
+                if (File.Exists("producten.txt")) File.Delete("producten.txt");
+                if (File.Exists("klanten.txt")) File.Delete("klanten.txt");
+                if (File.Exists("bestellingen.txt")) File.Delete("bestellingen.txt");
+
+                Producten.Clear();
+                klanten.Clear();
+
+                Console.WriteLine("Alle bestanden zijn verwijderd. Herstart het programma voor schone testdata.");
+            }
         }
     }
 }
