@@ -43,9 +43,8 @@ namespace webshop
             Console.WriteLine($"\n[ Bestelling #{Id} ]");
             Console.WriteLine($"Product: {Naam}");
             Console.WriteLine($"Aantal:  {Aantal}");
-            Console.WriteLine($"Totaal:  {Prijs:N2}");
+            Console.WriteLine($"Totaal:  {Prijs:N2} (incl. 21% BTW)");
             Console.WriteLine($"Klant:   {Klant}");
-            Console.WriteLine($"Adres:   {Straat}, {Stad}");
         }
     }
 }

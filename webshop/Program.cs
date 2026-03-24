@@ -27,68 +27,90 @@ namespace webshop
             while (Switch == true)
             {
                 Console.WriteLine("\n--- WEBSHOP SYSTEEM ---");
-                Console.WriteLine($"1  Product toevoegen");
-                Console.WriteLine($"2  Product bekijken");
-                Console.WriteLine($"3  Product aanpassen");
-                Console.WriteLine($"4  Klant toevoegen");
-                Console.WriteLine($"5  Klanten bekijken");
-                Console.WriteLine($"6  Bestelling maken");
-                Console.WriteLine($"7  Bestelling bekijken");
-                Console.WriteLine($"8  Statistieken (producten, klanten, bestellingen)");
-                Console.WriteLine($"9  Programma afsluiten");
-                Console.WriteLine("10 Gegevens OPSLAAN naar .txt");
-                Console.WriteLine("11 Gegevens LADEN en TONEN uit .txt");
-                Console.WriteLine("12 ALLE opgeslagen gegevens Wissen");
+                Console.WriteLine("1   Product toevoegen");
+                Console.WriteLine("2   Product bekijken");
+                Console.WriteLine("3   Product aanpassen");
+                Console.WriteLine("4   Klant toevoegen");
+                Console.WriteLine("5   Klanten bekijken");
+                Console.WriteLine("6   Bestelling maken");
+                Console.WriteLine("7   Bestelling bekijken");
+                Console.WriteLine("8   Zoek product");
+                Console.WriteLine("9   Zoek klant");
+                Console.WriteLine("10  Zoek bestelling");
+                Console.WriteLine("11  Product verwijderen");
+                Console.WriteLine("12  Klant verwijderen");
+                Console.WriteLine("13  Bestelling verwijderen");
+                Console.WriteLine("14  Gegevens OPSLAAN naar .txt");
+                Console.WriteLine("15  Gegevens LADEN en TONEN uit .txt");
+                Console.WriteLine("16  ALLE opgeslagen gegevens Wissen");
+                Console.WriteLine("17  Statistieken (producten, klanten, bestellingen)");
+                Console.WriteLine("18  Programma afsluiten");
                 Console.WriteLine("--------------------------------");
 
                 int nummer = int.Parse(Console.ReadLine());
                 switch (nummer)
                 {
                     case 1:
-                        productentoevoegen();
+                        Productentoevoegen();
                         break;
                     case 2:
-                        productenbekijken();
+                        Productenbekijken();
                         break;
                     case 3:
-                        productenaanpassen();
+                        Productenaanpassen();
                         break;
                     case 4:
-                        klantentoevoegen();
+                        Klantentoevoegen();
                         break;
                     case 5:
-                        klantenbekijken();
+                        Klantenbekijken();
                         break;
                     case 6:
-                        bestellingenmaken();
+                        Bestellingenmaken();
                         break;
                     case 7:
-                        bestellingenbekijken();
+                        Bestellingenbekijken();
                         break;
                     case 8:
-                        Statistiekentonen();
+                        ZoekProduct();
                         break;
                     case 9:
-                        afsluiten();
-                        Switch = false; 
+                        ZoekKlant();
                         break;
                     case 10:
-                        teSavenProducten();
-                        teSavenKlanten();
-                        teSavenBestellingen();
+                        ZoekBestelling();
                         break;
-                    case 11:
-                        opgeslagenGegevens();
+                    case 11: 
+                        ProductVerwijderen();
                         break;
-                    case 12:
-                        allesWissen();
+                    case 12: KlantVerwijderen();
                         break;
-                        
+                    case 13: BestellingVerwijderen();
+                        break;
+                    case 14:
+                        TeSavenProducten();
+                        TeSavenKlanten();
+                        TeSavenBestellingen();
+                        break;
+                    case 15:
+                        OpgeslagenGegevens();
+                        break;
+                    case 16:
+                        AllesWissen();
+                        break;
+                    case 17:
+                        Statistiekentonen();
+                        break;
+                    case 18:
+                        Afsluiten();
+                        Switch = false;
+                        break;
                 }
             }
             Console.ReadKey();
         }
-        static public void productentoevoegen() 
+        //Alle code over Producten.
+        static public void Productentoevoegen() 
         {
 
             Console.Write("Welk product wil je toevoegen: ");
@@ -109,7 +131,7 @@ namespace webshop
 
             Console.WriteLine("Product Toegevoegd!");
         }
-        static public void productenbekijken() 
+        static public void Productenbekijken() 
         {
             if (Producten.Count == 0)
                 Console.WriteLine($"Er zijn geen producten");
@@ -119,7 +141,18 @@ namespace webshop
                 foreach (Product p in Producten) { p.ToonInfo(); }
             }
         }
-        static public void productenaanpassen() 
+        static public void TeSavenProducten()
+        {
+            List<string> teSavenProducten = new List<string>();
+            foreach (var p in Producten)
+            {
+                teSavenProducten.Add($"{p.Id};{p.Naam};{p.Prijs};{p.Voorraad}");
+            }
+            File.WriteAllLines("producten.txt", teSavenProducten);
+
+            Console.WriteLine("Alle producten zijn succesvol opgeslagen in producten.txt!");
+        }
+        static public void Productenaanpassen() 
         {
             Console.Write("Voer het ID in van het product dat je wilt aanpassen: ");
             int zoekId = int.Parse(Console.ReadLine());
@@ -146,7 +179,58 @@ namespace webshop
                 Console.WriteLine("Product succesvol aangepast!");
             }
         }
-        static public void klantentoevoegen()
+        static public void ZoekProduct()
+        {
+            Console.Write("Voer (een deel van) de productnaam in: ");
+            string zoekterm = Console.ReadLine().ToLower();
+
+            var resultaten = Producten.FindAll(p => p.Naam.ToLower().Contains(zoekterm));
+
+            Console.WriteLine("\n--- Gevonden Producten ---");
+            if (resultaten.Count > 0)
+            {
+                foreach (var p in resultaten) p.ToonInfo();
+            }
+            else Console.WriteLine("Geen producten gevonden met deze naam.");
+        }
+        static public void ProductVerwijderen()
+        {
+            Productenbekijken();
+            Console.Write("\nVoer het ID in van het product dat u wilt verwijderen: ");
+            if (int.TryParse(Console.ReadLine(), out int id))
+            {
+                int verwijderd = Producten.RemoveAll(p => p.Id == id);
+                if (verwijderd > 0)
+                {
+                    Console.WriteLine("Product succesvol verwijderd.");
+                    TeSavenProducten(); // Sla direct op naar producten.txt
+                }
+                else Console.WriteLine("Product met dit ID niet gevonden.");
+            }
+        }
+        static public void MeestVerkochteProducten()
+        {
+            Console.WriteLine("\n--- TOP VERKOCHTE PRODUCTEN ---");
+
+            var topProducten = bestellingen
+                .GroupBy(b => b.Naam)
+                .Select(g => new { Product = g.Key, TotaalVekocht = g.Sum(b => b.Aantal) })
+                .OrderByDescending(x => x.TotaalVekocht);
+
+            if (!topProducten.Any())
+            {
+                Console.WriteLine("Nog geen verkopen geregistreerd.");
+                return;
+            }
+
+            foreach (var item in topProducten)
+            {
+                Console.WriteLine($"- {item.Product}: {item.TotaalVekocht} keer verkocht");
+            }
+        }
+
+        //Alle code over klanten.
+        static public void Klantentoevoegen()
         {
             Console.Write("Wat is de naam van de klant: ");
             string naam = Console.ReadLine();
@@ -154,10 +238,10 @@ namespace webshop
             Console.Write("Wat is de email van de klant: ");
             string email = Console.ReadLine();
 
-            Console.WriteLine($"locatie");
-            Console.Write("stad: ");
+            Console.Write("Stad: ");
             string stad = Console.ReadLine();
-            Console.Write("straat: ");
+
+            Console.Write("Straatnaam + nummer: ");
             string straat = Console.ReadLine();
 
             Klanten nieuwklanten = new Klanten(klanten.Count + 1, naam, email, stad, straat);
@@ -167,7 +251,7 @@ namespace webshop
             Console.WriteLine("Klant is succesvol toegevoegd!");
             Console.WriteLine();
         }
-        static public void klantenbekijken() 
+        static public void Klantenbekijken() 
         {
             if (klanten.Count == 0)
                 Console.WriteLine($"Er zijn geen klanten!");
@@ -177,84 +261,7 @@ namespace webshop
                 foreach (Klanten k in klanten) { k.ToonInfo(); }
             }
         }
-        static public void bestellingenmaken()
-        {
-            if (Producten.Count == 0 || klanten.Count == 0)
-            {
-                Console.WriteLine("Zorg dat er zowel producten als klanten bestaan!");
-                return;
-            }
-
-            productenbekijken();
-            Console.Write("\nGeef Product ID in: ");
-            int prodId = int.Parse(Console.ReadLine());
-            Product findproduct = Producten.Find(p => p.Id == prodId);
-
-            if (findproduct == null) { Console.WriteLine("Product niet gevonden."); return; }
-
-            Console.Write("Hoeveel wil je kopen: ");
-            int aantal = int.Parse(Console.ReadLine());
-
-            if (aantal > findproduct.Voorraad) { Console.WriteLine("Niet genoeg voorraad!"); return; }
-
-            klantenbekijken();
-            Console.Write("\nGeef Klant ID in: ");
-            int klantId = int.Parse(Console.ReadLine());
-            Klanten findklant = klanten.Find(k => k.Id == klantId);
-
-            if (findklant == null) { Console.WriteLine("Klant niet gevonden."); return; }
-
-            Bestellingen nieuw = new Bestellingen(bestellingen.Count + 1, findklant.Stad, findklant.Straat, findklant.Naam, findproduct.Naam, findproduct.Prijs * aantal, aantal);
-            bestellingen.Add(nieuw);
-
-            findproduct.Voorraad -= aantal;
-
-            Console.WriteLine("\nBestelling succesvol toegevoegd aan de lijst!");
-        }
-
-        static public void bestellingenbekijken() 
-        {
-            if (bestellingen.Count == 0) { Console.WriteLine("er zijn geen bestellingen gevonden!"); }
-            else foreach (Bestellingen b in bestellingen) { b.ToonInfo(); }
-        }
-        static public void Statistiekentonen() 
-        {
-            Console.WriteLine("statistieken:");
-            if (Producten.Count == 0) Console.WriteLine("er zijn nog geen producten.");
-            else
-            {
-                Console.WriteLine("producten");
-                foreach (Product p in Producten) { Console.WriteLine($"product: {p.Naam} voorraad: {p.Voorraad}"); }
-            }
-            if (klanten.Count == 0) { Console.WriteLine("er zijn nog geen klanten."); }
-            else
-            {
-                Console.WriteLine("\nklanten");
-                Console.WriteLine($"aantal klanten: {klanten.Count}");
-            }
-            if (bestellingen.Count == 0) Console.WriteLine("er zijn nog geen bestellingen.");
-            else
-            {
-                Console.WriteLine("\nbestellingen");
-                Console.WriteLine($"aantal bestelling: {bestellingen.Count}");
-            }
-        }
-        static public void afsluiten()
-        {
-            Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
-        }
-        static public void teSavenProducten()
-        {
-            List<string> teSavenProducten = new List<string>();
-            foreach (var p in Producten)
-            {
-                teSavenProducten.Add($"{p.Id};{p.Naam};{p.Prijs};{p.Voorraad}");
-            }
-            File.WriteAllLines("producten.txt", teSavenProducten);
-
-            Console.WriteLine("Alle producten zijn succesvol opgeslagen in producten.txt!");
-        }
-        static public void teSavenKlanten()
+        static public void TeSavenKlanten()
         {
             List<string> dataLijnen = new List<string>();
             foreach (var k in klanten)
@@ -264,7 +271,124 @@ namespace webshop
             File.WriteAllLines("klanten.txt", dataLijnen);
             Console.WriteLine("Klanten succesvol opgeslagen in klanten.txt!");
         }
-        static public void teSavenBestellingen()
+        static public void ZoekKlant()
+        {
+            Console.Write("Voer het e-mailadres van de klant in: ");
+            string zoekEmail = Console.ReadLine().ToLower();
+
+            var resultaten = klanten.FindAll(k => k.Email.ToLower().Contains(zoekEmail));
+
+            Console.WriteLine("\n--- Gevonden Klanten ---");
+            if (resultaten.Count > 0)
+            {
+                foreach (var k in resultaten) k.ToonInfo();
+            }
+            else Console.WriteLine("Geen klant gevonden met dit e-mailadres.");
+        }
+        static public void KlantVerwijderen()
+        {
+            Klantenbekijken();
+            Console.Write("\nVoer het ID in van de klant die u wilt verwijderen: ");
+            if (int.TryParse(Console.ReadLine(), out int id))
+            {
+                int verwijderd = klanten.RemoveAll(k => k.Id == id);
+                if (verwijderd > 0)
+                {
+                    Console.WriteLine("Klant succesvol verwijderd.");
+                    TeSavenKlanten(); 
+                }
+                else Console.WriteLine("Klant met dit ID niet gevonden.");
+            }
+        }
+
+        //Alle code over Bestellingen.
+        static public void Bestellingenmaken()
+        {
+            if (Producten.Count == 0 || klanten.Count == 0)
+            {
+                Console.WriteLine("Fout: Zorg dat er zowel producten als klanten in het systeem staan.");
+                return;
+            }
+
+            Productenbekijken();
+            Console.Write("\nVoer het ID in van het product dat u wilt bestellen: ");
+            int prodId = int.Parse(Console.ReadLine());
+            Product gekozenProduct = Producten.Find(p => p.Id == prodId);
+
+            if (gekozenProduct == null)
+            {
+                Console.WriteLine("Product niet gevonden!");
+                return;
+            }
+
+            if (gekozenProduct.Voorraad < 5 && gekozenProduct.Voorraad > 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow; 
+                Console.WriteLine($"WAARSCHUWING: Lage voorraad! Er zijn er nog maar {gekozenProduct.Voorraad} over.");
+                Console.ResetColor();
+            }
+            else if (gekozenProduct.Voorraad <= 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("FOUT: Dit product is uitverkocht en kan niet besteld worden.");
+                Console.ResetColor();
+                return;
+            }
+
+            Console.Write($"Hoeveel stuks van '{gekozenProduct.Naam}' wilt u bestellen? ");
+            int aantal = int.Parse(Console.ReadLine());
+
+            if (aantal > gekozenProduct.Voorraad)
+            {
+                Console.WriteLine($"FOUT: Onvoldoende voorraad. U probeert {aantal} te bestellen, maar er zijn er slechts {gekozenProduct.Voorraad}.");
+                return;
+            }
+            if (aantal <= 0)
+            {
+                Console.WriteLine("FOUT: Aantal moet groter zijn dan 0.");
+                return;
+            }
+
+            Klantenbekijken();
+            Console.Write("\nVoer het ID in van de klant: ");
+            int klantId = int.Parse(Console.ReadLine());
+            Klanten gekozenKlant = klanten.Find(k => k.Id == klantId);
+
+            if (gekozenKlant == null)
+            {
+                Console.WriteLine("Klant niet gevonden!");
+                return;
+            }
+
+            double prijsExcl = gekozenProduct.Prijs * aantal;
+
+            double totaalInclBtw = prijsExcl * 1.21;
+
+            gekozenProduct.Voorraad -= aantal;
+
+            Bestellingen nieuweBestelling = new Bestellingen(
+                bestellingen.Count + 1,
+                gekozenKlant.Stad,
+                gekozenKlant.Straat,
+                gekozenKlant.Naam,
+                gekozenProduct.Naam,
+                totaalInclBtw,
+                aantal
+            );
+
+            bestellingen.Add(nieuweBestelling);
+
+            Console.WriteLine("\n========================================");
+            Console.WriteLine("  BESTELLING SUCCESVOL AFGEROND!");
+            Console.WriteLine($"  Nieuwe voorraad van {gekozenProduct.Naam}: {gekozenProduct.Voorraad}");
+            Console.WriteLine("========================================\n");
+        }
+        static public void Bestellingenbekijken() 
+        {
+            if (bestellingen.Count == 0) { Console.WriteLine("er zijn geen bestellingen gevonden!"); }
+            else foreach (Bestellingen b in bestellingen) { b.ToonInfo(); }
+        }
+        static public void TeSavenBestellingen()
         {
             List<string> dataLijnen = new List<string>();
             foreach (var b in bestellingen)
@@ -274,7 +398,60 @@ namespace webshop
             File.WriteAllLines("bestellingen.txt", dataLijnen);
             Console.WriteLine("Bestellingen succesvol opgeslagen in bestellingen.txt!");
         }
-        static public void opgeslagenGegevens()
+        static public void ZoekBestelling()
+        {
+            Console.Write("Voer een naam in (Klant of Product): ");
+            string zoekterm = Console.ReadLine().ToLower();
+
+            var resultaten = bestellingen.FindAll(b =>
+                b.Klant.ToLower().Contains(zoekterm) ||
+                b.Naam.ToLower().Contains(zoekterm));
+
+            Console.WriteLine("\n--- Gevonden Bestellingen ---");
+            if (resultaten.Count > 0)
+            {
+                foreach (var b in resultaten) b.ToonInfo();
+            }
+            else Console.WriteLine("Geen bestellingen gevonden voor deze zoekterm.");
+        }
+        static public void BestellingVerwijderen()
+        {
+            Bestellingenbekijken();
+            Console.Write("\nVoer het ID in van de bestelling die u wilt verwijderen: ");
+            if (int.TryParse(Console.ReadLine(), out int id))
+            {
+                int verwijderd = bestellingen.RemoveAll(b => b.Id == id);
+                if (verwijderd > 0)
+                {
+                    Console.WriteLine("Bestelling succesvol geannuleerd/verwijderd.");
+                    TeSavenBestellingen(); 
+                }
+                else Console.WriteLine("Bestelling niet gevonden.");
+            }
+        }
+        static public void BestellingenPerKlant()
+        {
+            Console.WriteLine("\n--- BESTELLINGEN PER KLANT ---");
+
+            var klantStats = bestellingen
+                .GroupBy(b => b.Klant)
+                .Select(g => new { Klant = g.Key, AantalBestellingen = g.Count() })
+                .OrderByDescending(x => x.AantalBestellingen);
+
+            if (!klantStats.Any())
+            {
+                Console.WriteLine("Nog geen bestellingen gevonden.");
+                return;
+            }
+
+            foreach (var stat in klantStats)
+            {
+                Console.WriteLine($"- {stat.Klant}: {stat.AantalBestellingen} bestelling(en)");
+            }
+        }
+
+        //Alle code over opgeslagen gegevens.
+        static public void OpgeslagenGegevens()
         {
             Console.WriteLine("\n[ PRODUCTEN ]");
             if (File.Exists("producten.txt"))
@@ -302,23 +479,6 @@ namespace webshop
                 foreach (string lijn in File.ReadAllLines("bestellingen.txt")) Console.WriteLine(lijn);
             }
             else Console.WriteLine("Geen bestellingen gevonden.");
-        }
-        static void allesWissen()
-        {
-            Console.WriteLine("Weet je zeker dat je ALLE gegevens wilt wissen? (ja/nee)");
-            string bevestiging = Console.ReadLine().ToLower();
-
-            if (bevestiging == "ja")
-            {
-                if (File.Exists("producten.txt")) File.Delete("producten.txt");
-                if (File.Exists("klanten.txt")) File.Delete("klanten.txt");
-                if (File.Exists("bestellingen.txt")) File.Delete("bestellingen.txt");
-
-                Producten.Clear();
-                klanten.Clear();
-
-                Console.WriteLine("Alle bestanden zijn verwijderd. Herstart het programma voor schone testdata.");
-            }
         }
         static public void InitialiseerData()
         {
@@ -376,6 +536,25 @@ namespace webshop
             ToonDashboard();
             Console.WriteLine("--------------------------------");
         }
+        static public void AllesWissen()
+        {
+            Console.WriteLine("Weet je zeker dat je ALLE gegevens wilt wissen? (ja/nee)");
+            string bevestiging = Console.ReadLine().ToLower();
+
+            if (bevestiging == "ja")
+            {
+                if (File.Exists("producten.txt")) File.Delete("producten.txt");
+                if (File.Exists("klanten.txt")) File.Delete("klanten.txt");
+                if (File.Exists("bestellingen.txt")) File.Delete("bestellingen.txt");
+
+                Producten.Clear();
+                klanten.Clear();
+
+                Console.WriteLine("Alle bestanden zijn verwijderd. Herstart het programma voor schone testdata.");
+            }
+        }
+
+        //Design van de dashboard.
         static public void ToonDashboard()
         {
             Console.Clear();
@@ -400,6 +579,32 @@ namespace webshop
             Console.WriteLine(scheiding);
             Console.WriteLine(" Gebruik het menu hieronder om acties uit te voeren:");
         }
+
+        //Statistieken.
+        static public void Statistiekentonen()
+        {
+            Console.Clear();
+            Console.WriteLine("========== WINKEL STATISTIEKEN ==========");
+
+            Console.WriteLine($"Totaal aantal producten: {Producten.Count}");
+            Console.WriteLine($"Totaal aantal klanten:   {klanten.Count}");
+            Console.WriteLine($"Totaal aantal orders:    {bestellingen.Count}");
+
+            double omzet = bestellingen.Sum(b => b.Prijs);
+            Console.WriteLine($"Totale omzet (incl. BTW): {omzet:N2}");
+
+            MeestVerkochteProducten();
+            BestellingenPerKlant();
+
+            Console.WriteLine("=========================================");
+            Console.WriteLine("\nDruk op een toets om terug te gaan naar het menu...");
+            Console.ReadKey();
+        }
+
+        //Afsluiten van de console.
+        static public void Afsluiten()
+        {
+            Console.WriteLine("Systeem wordt afgesloten. Tot ziens!");
+        }
     }
 }
-
