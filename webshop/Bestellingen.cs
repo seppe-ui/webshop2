@@ -8,6 +8,7 @@ namespace webshop
 {
     internal class Bestellingen
     {
+        //Dit zijn de properties.
         public int Id { get; set; }
         public string Stad { get; set; }
         public string Straat { get; set; }
@@ -37,7 +38,7 @@ namespace webshop
             Prijs = prijs; 
             Aantal = aantal;
         }
-
+        //Dit toont de info van de bestelling.
         public void ToonInfo()
         {
             Console.WriteLine($"\n[ Bestelling #{Id} ]");

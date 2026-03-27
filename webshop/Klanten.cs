@@ -8,7 +8,7 @@ namespace webshop
 {
     internal class Klanten
     {
-
+        //dit zijn de properties.
         public int Id { get; set; }
         public string Naam { get; set; }
         public string Email { get; set; }
@@ -23,7 +23,7 @@ namespace webshop
             Straat = straat;
         }
 
-
+        //Dit toont de info van de klant.
         public void ToonInfo()
         {
             Console.WriteLine($"\n[ Klant #{Id} ]");

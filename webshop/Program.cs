@@ -15,6 +15,7 @@ namespace webshop
 {
     internal class Program
     {
+        //Dit zijn de listen.
         static List<Product> Producten = new List<Product>();
         static List<Klanten> klanten = new List<Klanten>();
         static List<Bestellingen> bestellingen = new List<Bestellingen>();
@@ -112,6 +113,7 @@ namespace webshop
             Console.ReadKey();
         }
         //Alle code over Producten.
+        //Voegt producten toe.
         static public void Productentoevoegen() 
         {
 
@@ -133,6 +135,7 @@ namespace webshop
 
             Console.WriteLine("Product Toegevoegd!");
         }
+        //Laat alle producten zien.
         static public void Productenbekijken() 
         {
             if (Producten.Count == 0)
@@ -143,6 +146,7 @@ namespace webshop
                 foreach (Product p in Producten) { p.ToonInfo(); }
             }
         }
+        //Dit safed het product in een textfile.
         static public void TeSavenProducten()
         {
             List<string> teSavenProducten = new List<string>();
@@ -154,6 +158,7 @@ namespace webshop
 
             Console.WriteLine("Alle producten zijn succesvol opgeslagen in producten.txt!");
         }
+        //Hier kan je producten aanpassen.
         static public void Productenaanpassen() 
         {
             Console.Write("Voer het ID in van het product dat je wilt aanpassen: ");
@@ -181,6 +186,7 @@ namespace webshop
                 Console.WriteLine("Product succesvol aangepast!");
             }
         }
+        //Dit zoekt het producten op in de textfile.
         static public void ZoekProduct()
         {
             Console.Write("Voer (een deel van) de productnaam in: ");
@@ -195,6 +201,7 @@ namespace webshop
             }
             else Console.WriteLine("Geen producten gevonden met deze naam.");
         }
+        //Hier word de producten verwijderd van de textfile.
         static public void ProductVerwijderen()
         {
             Productenbekijken();
@@ -210,6 +217,7 @@ namespace webshop
                 else Console.WriteLine("Product met dit ID niet gevonden.");
             }
         }
+        //Dit berekent welke product het meest verkocht werd.
         static public void MeestVerkochteProducten()
         {
             Console.WriteLine("\n--- TOP VERKOCHTE PRODUCTEN ---");
@@ -232,6 +240,7 @@ namespace webshop
         }
 
         //Alle code over klanten.
+        //Voegt klanten toe 
         static public void Klantentoevoegen()
         {
             Console.Write("Wat is de naam van de klant: ");
@@ -253,6 +262,7 @@ namespace webshop
             Console.WriteLine("Klant is succesvol toegevoegd!");
             Console.WriteLine();
         }
+        //Laat alle klanten zien.
         static public void Klantenbekijken() 
         {
             if (klanten.Count == 0)
@@ -263,6 +273,7 @@ namespace webshop
                 foreach (Klanten k in klanten) { k.ToonInfo(); }
             }
         }
+        //Dit safed de klanten in een textfile.
         static public void TeSavenKlanten()
         {
             List<string> dataLijnen = new List<string>();
@@ -273,6 +284,7 @@ namespace webshop
             File.WriteAllLines("klanten.txt", dataLijnen);
             Console.WriteLine("Klanten succesvol opgeslagen in klanten.txt!");
         }
+        //Hier zoekt het de klanten in de textfile.
         static public void ZoekKlant()
         {
             Console.Write("Voer het e-mailadres van de klant in: ");
@@ -287,6 +299,7 @@ namespace webshop
             }
             else Console.WriteLine("Geen klant gevonden met dit e-mailadres.");
         }
+        //Dit verwijderd de klanten van de textfile.
         static public void KlantVerwijderen()
         {
             Klantenbekijken();
@@ -304,6 +317,7 @@ namespace webshop
         }
 
         //Alle code over Bestellingen.
+        //Dit voegt een bestelling toe.
         static public void Bestellingenmaken()
         {
             if (Producten.Count == 0 || klanten.Count == 0)
@@ -385,6 +399,7 @@ namespace webshop
             Console.WriteLine($"  Nieuwe voorraad van {gekozenProduct.Naam}: {gekozenProduct.Voorraad}");
             Console.WriteLine("========================================\n");
         }
+        //Dit laat je alle bestellingen zien.
         static public void Bestellingenbekijken() 
         {
             if (bestellingen.Count == 0) { Console.WriteLine("er zijn geen bestellingen gevonden!"); }
@@ -400,6 +415,7 @@ namespace webshop
             File.WriteAllLines("bestellingen.txt", dataLijnen);
             Console.WriteLine("Bestellingen succesvol opgeslagen in bestellingen.txt!");
         }
+        //Dit zoekt de bestelling op in de textfile.
         static public void ZoekBestelling()
         {
             Console.Write("Voer een naam in (Klant of Product): ");
@@ -416,6 +432,7 @@ namespace webshop
             }
             else Console.WriteLine("Geen bestellingen gevonden voor deze zoekterm.");
         }
+        //Dit verwijderd de bestelling van de textfile.
         static public void BestellingVerwijderen()
         {
             Bestellingenbekijken();
@@ -431,6 +448,7 @@ namespace webshop
                 else Console.WriteLine("Bestelling niet gevonden.");
             }
         }
+        //Dit toont de bestelling van de klanten.
         static public void BestellingenPerKlant()
         {
             Console.WriteLine("\n--- BESTELLINGEN PER KLANT ---");

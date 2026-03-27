@@ -8,9 +8,11 @@ namespace webshop
 {
     internal class Product
     {
+        //Dit zijn de variabellen voor de product.
         double prijs;
         int voorraad;
 
+        //Dit zijn de properties.
         public string Naam { get; set; }
         public int Id {get; set;}
         public double Prijs
@@ -44,7 +46,7 @@ namespace webshop
             Prijs = prijs;
             Voorraad = voorraad;
         }
-
+        //Dit toont de info van de product.
         public void ToonInfo()
         {
             Console.WriteLine($"\n[ Product #{Id} ]");

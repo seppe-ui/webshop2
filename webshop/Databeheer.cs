@@ -11,9 +11,11 @@ namespace webshop
     {
 public class BestandsBeheer
     {
+        //Dit zijn de variabellen voor de databeheer.
         private string productBestand = "producten.txt";
         private string klantBestand = "klanten.txt";
 
+        //Dit zorgt ervoor dat alle gegevens woorden opgeslaan in een textfile.
         public void SlaGegevensOp(List<Product> producten, List<Klanten> klanten)
         {
             try
@@ -41,7 +43,7 @@ public class BestandsBeheer
                 Console.WriteLine($"[FOUT] Er ging iets mis bij het opslaan: {ex.Message}");
             }
         }
-
+            //dit laat de producten van de textfile.
             public List<Product> LaadProducten()
             {
                 List<Product> lijst = new List<Product>();
@@ -62,7 +64,7 @@ public class BestandsBeheer
                 }
                 return lijst;
             }
-
+            //Dit laat de klanten van de textfile.
             public List<Klanten> LaadKlanten()
             {
                 List<Klanten> lijst = new List<Klanten>();
