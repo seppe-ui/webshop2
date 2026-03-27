@@ -105,6 +105,8 @@ namespace webshop
                         Afsluiten();
                         Switch = false;
                         break;
+                    default: Console.WriteLine("fouten invoer!");
+                        break;
                 }
             }
             Console.ReadKey();
